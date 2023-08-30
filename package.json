@@ -34,9 +34,10 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "dev": "unbuild --stub",
+    "build:dev": "unbuild --stub",
     "lint": "eslint .",
     "start": "esno ./src/index.ts",
+    "dev": "esno --watch ./src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks"

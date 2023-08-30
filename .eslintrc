@@ -12,5 +12,7 @@
     "@antfu"
   ],
   "plugins": ["@typescript-eslint"],
-  "rules": {}
+  "rules": {
+    "antfu/top-level-function": "off"
+  }
 }

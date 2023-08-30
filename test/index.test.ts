@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { a } from '../src'
+import { onePlusTwo } from '../src'
 
 describe('should', () => {
   it('exported', () => {
-    expect(a).toEqual(3)
+    const example = onePlusTwo
+    const expected = 3
+
+    expect(example).toEqual(expected)
   })
 })
