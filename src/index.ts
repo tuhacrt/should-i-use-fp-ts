@@ -1,3 +1,3 @@
-import { sum } from './lib'
+import { sum } from './lib';
 
-export const onePlusTwo = sum(1, 2)
+export const onePlusTwo = sum(1, 2);
