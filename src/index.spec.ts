@@ -6,9 +6,9 @@ describe('onePlusTwo()', () => {
   it(`Given: null
       When: onePlusTwo
       Then: return 3`, () => {
-    const example = onePlusTwo;
+    const received = onePlusTwo;
     const expected = 3;
 
-    expect(example).toEqual(expected);
+    expect(received).toEqual(expected);
   });
 });
