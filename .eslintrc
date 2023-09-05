@@ -21,6 +21,7 @@
     "brace-style": "off",
     "@typescript-eslint/brace-style": "off",
     "semi": ["error", "always"],
-    "@typescript-eslint/semi": ["error", "always"]
+    "@typescript-eslint/semi": ["error", "always"],
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"]
   }
 }
