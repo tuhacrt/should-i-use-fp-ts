@@ -1,4 +1,4 @@
-# 　TypeScript-Starter
+# TypeScript-Starter
 
 A general TypeScript-Starter includes: "vitest", "eslint", "unbuild"
 
