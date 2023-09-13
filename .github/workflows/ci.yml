@@ -15,64 +15,34 @@ jobs:
     steps:
       - uses: actions/checkout@v4.0.0
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
-
-      - name: Set node
-        uses: actions/setup-node@v3.8.1
-        with:
-          node-version: 18.x
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
 
       - name: Install
-        run: pnpm i
+        run: bun i
 
       - name: Lint
-        run: pnpm lint
-
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
-
-      - name: Set node
-        uses: actions/setup-node@v3.8.1
-        with:
-          node-version: 18.x
-
-      - name: Install
-        run: pnpm i
-
-      - name: Typecheck
-        run: pnpm typecheck
+        run: bun lint
 
   test:
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        node: [16.x, 18.x]
         os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
 
     steps:
       - uses: actions/checkout@v4.0.0
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
-
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v3.8.1
-        with:
-          node-version: ${{ matrix.node }}
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
 
       - name: Install
-        run: pnpm i
+        run: bun i
 
       - name: Build
-        run: pnpm build
+        run: bun build:dev
 
       - name: Test
-        run: pnpm test
+        run: bun test

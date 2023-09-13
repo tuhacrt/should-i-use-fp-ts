@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "esnext",
+    "types": ["bun-types"],
     "lib": ["esnext"],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "jsx": "react-jsx", // support JSX
+    "allowJs": true, // allow importing `.js` from `.ts`
+    "esModuleInterop": true, // allow default imports for CommonJS modules
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
     "skipDefaultLibCheck": true,
   }
 }

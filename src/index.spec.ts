@@ -1,11 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'bun:test';
 
 import { onePlusTwo } from '../src';
 
-describe('onePlusTwo()', () => {
-  it(`Given: null
-      When: onePlusTwo
-      Then: return 3`, () => {
+describe('onePlusTwo', () => {
+  test(`
+  Given: onePlusTwo
+  Then: 3`, () => {
     const received = onePlusTwo;
     const expected = 3;
 

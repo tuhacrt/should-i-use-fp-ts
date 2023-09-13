@@ -1,64 +1,37 @@
 {
   "name": "typescript-starter",
-  "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@8.7.0",
-  "engines": {
-    "node": ">=18"
+  "author": "Tuhacrt <a067800497@gmail.com>",
+  "module": "./index.ts",
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.41.0",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "bun-types": "^1.0.1",
+    "eslint": "^8.48.0",
+    "eslint-plugin-import": "^2.28.1",
+    "lint-staged": "^14.0.1",
+    "simple-git-hooks": "^2.9.0",
+    "typescript": "^5.2.2"
   },
   "description": "A Typescript-starter from Tuhacrt",
-  "author": "Tuhacrt <a067800497@gmail.com>",
-  "license": "MIT",
-  "keywords": [],
-  "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./dist/index.d.ts"
-      ]
-    }
-  },
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "unbuild",
-    "build:dev": "unbuild --stub",
-    "lint": "eslint .",
-    "start": "tsx ./src/index.ts",
-    "dev": "tsx --watch ./src/index.ts",
-    "test": "vitest",
-    "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^0.41.0",
-    "@types/node": "^20.5.7",
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
-    "eslint": "^8.48.0",
-    "lint-staged": "^14.0.1",
-    "simple-git-hooks": "^2.9.0",
-    "tsx": "^3.12.7",
-    "typescript": "^5.2.2",
-    "unbuild": "^2.0.0",
-    "vitest": "^0.34.3"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
+  "keywords": [],
+  "license": "MIT",
   "lint-staged": {
     "*": "eslint --fix"
+  },
+  "scripts": {
+    "build:dev": "bun build --target=bun ./src/index.ts --outdir=dist --outfile=index.js",
+    "lint": "eslint .",
+    "start": "bun run ./src/index.ts",
+    "dev": "bun run --watch ./src/index.ts",
+    "prepare": "simple-git-hooks"
+  },
+  "sideEffects": false,
+  "simple-git-hooks": {
+    "pre-commit": "bunx lint-staged"
   }
 }
