@@ -2,9 +2,27 @@
   "name": "typescript-starter",
   "version": "0.0.0",
   "author": "Tuhacrt <a067800497@gmail.com>",
+  "description": "A Typescript-starter from Tuhacrt",
+  "license": "MIT",
+  "keywords": [],
   "module": "./index.ts",
+  "files": ["dist"],
+  "sideEffects": false,
+  "scripts": {
+    "build:dev": "bun build --target=bun ./src/index.ts --outdir=dist --outfile=index.js",
+    "lint": "eslint .",
+    "start": "bun run ./src/index.ts",
+    "dev": "bun run --watch ./src/index.ts",
+    "prepare": "simple-git-hooks"
+  },
+  "dependencies": {
+    "fp-ts": "^2.16.1",
+    "ramda": "^0.29.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.41.0",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@types/ramda": "^0.29.3",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
     "bun-types": "^1.0.1",
@@ -14,23 +32,9 @@
     "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2"
   },
-  "description": "A Typescript-starter from Tuhacrt",
-  "files": [
-    "dist"
-  ],
-  "keywords": [],
-  "license": "MIT",
   "lint-staged": {
     "*": "eslint --fix"
   },
-  "scripts": {
-    "build:dev": "bun build --target=bun ./src/index.ts --outdir=dist --outfile=index.js",
-    "lint": "eslint .",
-    "start": "bun run ./src/index.ts",
-    "dev": "bun run --watch ./src/index.ts",
-    "prepare": "simple-git-hooks"
-  },
-  "sideEffects": false,
   "simple-git-hooks": {
     "pre-commit": "bunx lint-staged"
   }
