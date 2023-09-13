@@ -1,3 +1,3 @@
-import { sum } from './lib';
+const complexArray = [1, 2, 3, undefined];
 
-export const onePlusTwo = sum(1, 2);
+export default complexArray;

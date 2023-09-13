@@ -1,6 +1,6 @@
 # TypeScript-Starter
 
-A general TypeScript-Starter includes: "vitest", "eslint", "unbuild"
+A general TypeScript-Starter using : "bun"
 
 ## License
 

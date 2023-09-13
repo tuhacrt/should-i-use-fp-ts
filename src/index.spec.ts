@@ -1,13 +1,15 @@
 import { describe, expect, test } from 'bun:test';
 
-import { onePlusTwo } from '../src';
+import complexArray from './index';
 
-describe('onePlusTwo', () => {
+describe('ts-reset/filter', () => {
   test(`
-  Given: onePlusTwo
-  Then: 3`, () => {
-    const received = onePlusTwo;
-    const expected = 3;
+  Given: complexArray
+  When: filter(Boolean)
+  Then: Array<number>`, () => {
+    const given = complexArray;
+    const received = given.filter(Boolean);
+    const expected = [1, 2, 3];
 
     expect(received).toEqual(expected);
   });
