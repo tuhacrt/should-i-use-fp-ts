@@ -3,7 +3,7 @@
   "env": { "browser": true, "es2023": true, "node": true },
   "parser": "@typescript-eslint/parser",
   "parserOptions": { "ecmaVersion": "latest", "sourceType": "module" },
-  "ignorePatterns": ["node_modules", "dist", "*.json", "*.md", "*.yml", "*.yaml"],
+  "ignorePatterns": ["node_modules", "dist"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -12,10 +12,29 @@
   "rules": {
     "antfu/top-level-function": "off",
     "antfu/if-newline": "off",
-    "curly": ["error", "multi", "consistent"],
-    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "curly": "off",
+    "brace-style": "off",
     "semi": ["error", "always"],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "unknown"
+        ],
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc" }
+      }
+    ],
     "@typescript-eslint/semi": ["error", "always"],
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"]
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/brace-style": "off",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/array-type": ["error", { "default": "generic" }]
   }
 }
