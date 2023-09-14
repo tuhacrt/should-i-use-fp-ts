@@ -1,13 +1,13 @@
 {
   "name": "typescript-starter",
   "version": "0.0.0",
-  "author": "Tuhacrt <a067800497@gmail.com>",
   "description": "A Typescript-starter from Tuhacrt",
+  "author": "Tuhacrt <a067800497@gmail.com>",
   "license": "MIT",
   "keywords": [],
+  "sideEffects": false,
   "module": "./index.ts",
   "files": ["dist"],
-  "sideEffects": false,
   "scripts": {
     "build:dev": "bun build --target=bun ./src/index.ts --outdir=dist --outfile=index.js",
     "lint": "eslint .",
@@ -32,10 +32,10 @@
     "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2"
   },
-  "lint-staged": {
-    "*": "eslint --fix"
-  },
   "simple-git-hooks": {
     "pre-commit": "bunx lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
