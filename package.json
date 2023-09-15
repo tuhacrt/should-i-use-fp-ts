@@ -1,7 +1,7 @@
 {
-  "name": "typescript-starter",
+  "name": "should-i-use-fp-ts",
   "version": "0.0.0",
-  "description": "A Typescript-starter from Tuhacrt",
+  "description": "a fp-ts practice and tutorial from Tuhacrt",
   "author": "Tuhacrt <a067800497@gmail.com>",
   "license": "MIT",
   "keywords": [],
@@ -9,10 +9,8 @@
   "module": "./index.ts",
   "files": ["dist"],
   "scripts": {
-    "build:dev": "bun build --target=bun ./src/index.ts --outdir=dist --outfile=index.js",
+    "test:dev": "bun test --watch",
     "lint": "eslint .",
-    "start": "bun run ./src/index.ts",
-    "dev": "bun run --watch ./src/index.ts",
     "prepare": "simple-git-hooks"
   },
   "dependencies": {

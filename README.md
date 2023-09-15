@@ -1,6 +1,6 @@
-# TypeScript-Starter
+# Should I use fp-ts?
 
-A general TypeScript-Starter using : "bun"
+This repo is practice and example for fp-ts
 
 ## License
 
