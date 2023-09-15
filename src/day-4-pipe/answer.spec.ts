@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 
-import { flowEasy, pipeEasy } from './index';
+import { flowEasy, pipeEasy } from './answer';
 
 /** Helper functions */
 const inc = (x: number) => x + 1;
@@ -13,8 +13,7 @@ describe('pipeEasy(x, ...fns)', () => {
   Given: x = 1, fns = [inc, inc, inc]
   Then: 4`, () => {
     const x = 1;
-    const fns = [inc, inc, inc];
-    const received = pipeEasy(x, ...fns);
+    const received = pipeEasy(x, inc, inc, inc);
     const expected = 4;
 
     expect(received).toEqual(expected);
@@ -24,8 +23,7 @@ describe('pipeEasy(x, ...fns)', () => {
   Given: x = 100, fns = [inc, toString, split, reverse]
   Then: ['1', '0', '1']`, () => {
     const x = 100;
-    const fns = [inc, toString, split, reverse];
-    const received = pipeEasy(x, ...fns);
+    const received = pipeEasy(x, inc, toString, split, reverse);
     const expected = ['1', '0', '1'];
 
     expect(received).toEqual(expected);
@@ -37,8 +35,7 @@ describe('flowEasy(...fns)(x)', () => {
   Given: x = 1, fns = [inc, inc, inc]
   Then: 4`, () => {
     const x = 1;
-    const fns = [inc, inc, inc];
-    const received = flowEasy(...fns)(x);
+    const received = flowEasy(inc, inc, inc)(x);
     const expected = 4;
 
     expect(received).toEqual(expected);
@@ -48,8 +45,7 @@ describe('flowEasy(...fns)(x)', () => {
   Given: x = 100, fns = [inc, toString, split, reverse]
   Then: ['1', '0', '1']`, () => {
     const x = 100;
-    const fns = [inc, toString, split, reverse];
-    const received = flowEasy(...fns)(x);
+    const received = flowEasy(inc, toString, split, reverse)(x);
     const expected = ['1', '0', '1'];
 
     expect(received).toEqual(expected);
