@@ -1,17 +1,17 @@
 {
   "name": "should-i-use-fp-ts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "a fp-ts practice and tutorial from Tuhacrt",
   "author": "Tuhacrt <a067800497@gmail.com>",
   "license": "MIT",
   "keywords": [],
   "sideEffects": false,
-  "module": "./index.ts",
-  "files": ["dist"],
+  "module": "./src/index.ts",
   "scripts": {
-    "test:dev": "bun test --watch",
+    "start": "bun run ./src/index.ts",
+    "test:w": "bun test --watch",
     "lint": "eslint .",
-    "prepare": "simple-git-hooks"
+    "lint:f": "eslint . --fix"
   },
   "dependencies": {
     "fp-ts": "^2.16.1",
@@ -22,18 +22,9 @@
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/ramda": "^0.29.3",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
     "bun-types": "^1.0.1",
     "eslint": "^8.48.0",
     "eslint-plugin-import": "^2.28.1",
-    "lint-staged": "^14.0.1",
-    "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "bunx lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
   }
 }
