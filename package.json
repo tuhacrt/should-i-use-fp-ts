@@ -8,7 +8,8 @@
   "sideEffects": false,
   "module": "./src/index.ts",
   "scripts": {
-    "start": "bun run ./src/index.ts",
+    "start:02": "bun run ./src/day-02/index.ts",
+    "start:03": "bun run ./src/day-03/index.ts",
     "test:w": "bun test --watch",
     "lint": "eslint .",
     "lint:f": "eslint . --fix"
