@@ -1,6 +1,6 @@
-# Day 05 - pointfree
+# Day 06 - pipe and flow
 
-This folder is to show how to use function in `pointfree` style.
+This folder is to show how to create type **unsafe** `pipe` and `flow`
 
 ## Run
 

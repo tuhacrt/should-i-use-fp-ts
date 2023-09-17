@@ -5,6 +5,6 @@ This folder is to show the difference between `declarative` and `imperative` cod
 ## Run
 
 ```sh
-# remove the annotation mark of the file and run ./src/day-04/index.spec.ts
+# remove the annotation mark of ./src/day-04/index.spec.ts and run
 bun test
 ```

@@ -1,3 +1,7 @@
+/**
+ * You need to finish the functions with // TODO below.
+ * and then run the tests.
+ */
 // helper functions
 const id = (x: any) => x;
 const inc = (x: number) => x + 1;
