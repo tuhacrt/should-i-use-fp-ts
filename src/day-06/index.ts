@@ -6,9 +6,9 @@
 type fn = (...args: Array<any>) => any;
 
 /** How to build a easy pipe function ? (using type: any) */
-const pipeEasy = (x, ...fns) => undefined; // TODO
+const pipeAny = (x, ...fns) => undefined; // TODO
 
 /** How to build a easy flow function ? (using type: any) */
-const flowEasy = (...fns) => undefined; // TODO
+const flowAny = (...fns) => undefined; // TODO
 
-export { pipeEasy, flowEasy };
+export { pipeAny, flowAny };
