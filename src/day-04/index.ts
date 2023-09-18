@@ -3,7 +3,7 @@
  */
 // Imperative
 const fibImp = (n: number): number => {
-  if (n <= 1) return n;
+  if (n < 2) return n;
 
   let [curr, prev1, prev2] = [0, 0, 1];
 
@@ -17,7 +17,7 @@ const fibImp = (n: number): number => {
 };
 
 // Declarative
-const fibDec = (n: number): number => n <= 1 ? n : fibDec(n - 1) + fibDec(n - 2);
+const fibDec = (n: number): number => n < 2 ? n : fibDec(n - 1) + fibDec(n - 2);
 
 /**
  * LeetCode 118. Pascal's Triangle
