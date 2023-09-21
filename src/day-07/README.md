@@ -1,6 +1,6 @@
-# Day 07 - Abstract Data Type(ADT)
+# Day 07 - Option
 
-This folder is to show how to use 
+This folder is to show how to use ADT.
 
 ## Run
 
