@@ -1,52 +1,44 @@
-// import { describe, expect, test } from 'bun:test';
+// import { beforeEach, describe, expect, test } from 'bun:test';
 
-// import { flowAny, pipeAny } from './index';
+// import { flow2, narrowFlow2 } from './index';
 
 // /** Helper functions */
-// const inc = (x: number) => x + 1;
-// const toString = (x: number) => x.toString();
-// const split = (x: string) => x.split('');
-// const reverse = (x: Array<string>) => x.reverse();
+// const inc = (x: number): number => x + 1;
+// const toString = (x: number): string => x.toString();
+// const split = (x: string): Array<string> => x.split('');
 
-// describe('pipeAny(x, ...fns)', () => {
-//   test(`
-//   Given: x = 1, fns = [inc, inc, inc]
-//   Then: 4`, () => {
-//     const x = 1;
-//     const received = pipeAny(x, inc, inc, inc);
-//     const expected = 4;
-
-//     expect(received).toEqual(expected);
-//   });
+// describe('narrowFlow2(f, g) => x => g(f(x))', () => {
+//   let list: Array<number>;
+//   beforeEach(() => list = [1, 2, 3, 4, 5]);
 
 //   test(`
-//   Given: x = 100, fns = [inc, toString, split, reverse]
-//   Then: ['1', '0', '1']`, () => {
-//     const x = 100;
-//     const received = pipeAny(x, inc, toString, split, reverse);
-//     const expected = ['1', '0', '1'];
+//   Given: f = inc, g = toString
+//   Then: ['2', '3', '4', '5', '6']`, () => {
+//     const received = list.map(narrowFlow2(inc, toString));
+//     const expected = ['2', '3', '4', '5', '6'];
 
 //     expect(received).toEqual(expected);
 //   });
 // });
 
-// describe('flowAny(...fns)(x)', () => {
+// describe('flow2(f, g) => x => g(f(x))', () => {
+//   let list: Array<number>;
+//   beforeEach(() => list = [1, 2, 3, 4, 5]);
+
 //   test(`
-//   Given: x = 1, fns = [inc, inc, inc]
-//   Then: 4`, () => {
-//     const x = 1;
-//     const received = flowAny(inc, inc, inc)(x);
-//     const expected = 4;
+//   Given: f = inc, g = toString
+//   Then: ['2', '3', '4', '5', '6']`, () => {
+//     const received = list.map(flow2(inc, toString));
+//     const expected = ['2', '3', '4', '5', '6'];
 
 //     expect(received).toEqual(expected);
 //   });
 
 //   test(`
-//   Given: x = 100, fns = [inc, toString, split, reverse]
-//   Then: ['1', '0', '1']`, () => {
-//     const x = 100;
-//     const received = flowAny(inc, toString, split, reverse)(x);
-//     const expected = ['1', '0', '1'];
+//   Given: f = toString, g = split
+//   Then: [['1'], ['2'], ['3'], ['4'], ['5']]`, () => {
+//     const received = list.map(flow2(toString, split));
+//     const expected = [['1'], ['2'], ['3'], ['4'], ['5']];
 
 //     expect(received).toEqual(expected);
 //   });
