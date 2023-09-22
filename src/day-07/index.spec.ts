@@ -1,45 +1,64 @@
-// import { beforeEach, describe, expect, test } from 'bun:test';
+// import { describe, expect, test } from 'bun:test';
+// import * as O from 'fp-ts/lib/Option';
 
-// import { flow2, narrowFlow2 } from './index';
+// import { head, inverse } from './index';
 
-// /** Helper functions */
-// const inc = (x: number): number => x + 1;
-// const toString = (x: number): string => x.toString();
-// const split = (x: string): Array<string> => x.split('');
+// /** Original functions */
+// const headO = <A>(xs: ReadonlyArray<A>) => xs.length === 0 ? O.none : O.some(xs[0]);
+// const inverseO = (x: number) => x === 0 ? O.none : O.some(1 / x);
 
-// describe('narrowFlow2(f, g) => x => g(f(x))', () => {
-//   let list: Array<number>;
-//   beforeEach(() => list = [1, 2, 3, 4, 5]);
-
+// describe('head = xs => x', () => {
 //   test(`
-//   Given: f = inc, g = toString
-//   Then: ['2', '3', '4', '5', '6']`, () => {
-//     const received = list.map(narrowFlow2(inc, toString));
-//     const expected = ['2', '3', '4', '5', '6'];
+//   Given: xs = [1, 2, 3, 4, 5]
+//   When: head(xs)
+//   Then: 1`, () => {
+//     const xs = [1, 2, 3, 4, 5];
+//     const received = head(xs);
+//     const original = headO(xs);
+//     const expected = { _tag: 'Some', value: 1 };
 
 //     expect(received).toEqual(expected);
+//     expect(received).toEqual(original);
+//   });
+
+//   test(`
+//   Given: xs = [1, 2, 3, 4, 5]
+//   When: head(xs)
+//   Then: none`, () => {
+//     const xs: Array<number> = [];
+//     const received = head(xs);
+//     const original = headO(xs);
+//     const expected = { _tag: 'None' };
+
+//     expect(received).toEqual(expected);
+//     expect(received).toEqual(original);
 //   });
 // });
 
-// describe('flow2(f, g) => x => g(f(x))', () => {
-//   let list: Array<number>;
-//   beforeEach(() => list = [1, 2, 3, 4, 5]);
-
+// describe('inverse = x => x', () => {
 //   test(`
-//   Given: f = inc, g = toString
-//   Then: ['2', '3', '4', '5', '6']`, () => {
-//     const received = list.map(flow2(inc, toString));
-//     const expected = ['2', '3', '4', '5', '6'];
+//   Given: x = 5
+//   When: inverse(x)
+//   Then: 0.2`, () => {
+//     const x = 5;
+//     const received = inverse(x);
+//     const original = inverseO(x);
+//     const expected = { _tag: 'Some', value: 0.2 };
 
 //     expect(received).toEqual(expected);
+//     expect(received).toEqual(original);
 //   });
 
 //   test(`
-//   Given: f = toString, g = split
-//   Then: [['1'], ['2'], ['3'], ['4'], ['5']]`, () => {
-//     const received = list.map(flow2(toString, split));
-//     const expected = [['1'], ['2'], ['3'], ['4'], ['5']];
+//   Given: x = 0
+//   When: inverse(x)
+//   Then: none`, () => {
+//     const x = 0;
+//     const received = inverse(x);
+//     const original = inverseO(x);
+//     const expected = { _tag: 'None' };
 
 //     expect(received).toEqual(expected);
+//     expect(received).toEqual(original);
 //   });
 // });

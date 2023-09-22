@@ -1,16 +1,24 @@
-const inc = (x: number) => x + 1;
-const toString = (x: number) => x.toString();
-/**
- * You need to build a flow function that can compose the function above.
- * which can make incAndToString work.
- */
-const narrowFlow2 = undefined; // TODO
-const incAndToString = narrowFlow2(inc, toString);
+export type None = { readonly _tag: '' }; // TODO
+export type Some<A> = { readonly _tag: ''; readonly value: undefined }; // TODO
+export type Option<A> = None | Some<A>;
 
-/**
- * You need to build a strict type flow function that accepts 2 functions.
- */
-type Flow2 = undefined; // TODO
-const flow2 = undefined; // TODO
+export const none = <const>({ }); // TODO
+export const some = <A>(value: A): Some<A> => <const>({ }); // TODO
 
-export { narrowFlow2, flow2, incAndToString };
+/** Imperative */
+export const headI = <A>(xs: ReadonlyArray<A>) => {
+  if (xs.length === 0) throw new Error('empty array');
+  return xs[0];
+};
+
+export const inverseI = (x: number) => {
+  if (x === 0) throw new Error('cannot divide by zero');
+  return 1 / x;
+};
+
+/** fp-ts */
+type Head = <A>(xs: ReadonlyArray<A>) => Option<A>;
+type Inverse = (x: number) => Option<number>;
+
+export const head: Head = xs => xs.length === 0 ? none : some(xs[0]);
+export const inverse: Inverse = x => x === 0 ? none : some(1 / x);
