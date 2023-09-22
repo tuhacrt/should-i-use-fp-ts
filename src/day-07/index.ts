@@ -1,3 +1,6 @@
+/**
+ * Make your own Option type and function like fp-ts/lib/Option
+ */
 export type None = { readonly _tag: '' }; // TODO
 export type Some<A> = { readonly _tag: ''; readonly value: undefined }; // TODO
 export type Option<A> = None | Some<A>;
@@ -16,7 +19,9 @@ export const inverseI = (x: number) => {
   return 1 / x;
 };
 
-/** fp-ts */
+/**
+ * You need to finish the Option type and function above to make the following code valid.
+ */
 type Head = <A>(xs: ReadonlyArray<A>) => Option<A>;
 type Inverse = (x: number) => Option<number>;
 

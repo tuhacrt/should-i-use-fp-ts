@@ -1,4 +1,3 @@
-import * as O from 'fp-ts/lib/Option';
 import { flow, pipe } from 'fp-ts/lib/function';
 
 type None = { readonly _tag: 'None' };
