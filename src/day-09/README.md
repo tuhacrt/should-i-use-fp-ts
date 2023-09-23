@@ -1,4 +1,4 @@
-# Day 03 - Option flatMap
+# Day 09 - Option flatten, flatMap(chain)
 
 This folder is to show how to use Option in fp-ts.
 
