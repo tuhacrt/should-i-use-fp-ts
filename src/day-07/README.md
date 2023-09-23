@@ -1,4 +1,4 @@
-# Day 07 - Option basic
+# Day 07 - Option (1)
 
 This folder is to show how to use Option basic in fp-ts.
 

@@ -6,7 +6,8 @@ export type Some<A> = { readonly _tag: ''; readonly value: undefined }; // TODO
 export type Option<A> = None | Some<A>;
 
 export const none = <const>({ }); // TODO
-export const some = <A>(value: A): Some<A> => <const>({ }); // TODO
+export const some = <A>(value: A): Option<A> => <const>({ }); // TODO
+export const of = <A>(value: A): Option<A> => value; // TODO
 
 /** Imperative */
 export const headI = <A>(xs: ReadonlyArray<A>) => {

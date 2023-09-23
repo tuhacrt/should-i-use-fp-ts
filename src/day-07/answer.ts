@@ -2,8 +2,9 @@ export type None = { readonly _tag: 'None' };
 export type Some<A> = { readonly _tag: 'Some'; readonly value: A };
 export type Option<A> = None | Some<A>;
 
-export const none = <const>({ _tag: 'None' });
-export const some = <A>(value: A): Some<A> => <const>({ _tag: 'Some', value });
+export const none: Option<never> = <const>({ _tag: 'None' });
+export const some = <A>(value: A): Option<A> => <const>({ _tag: 'Some', value });
+export const of = <A>(value: A): Option<A> => some(value);
 
 /** Imperative */
 export const headI = <A>(xs: ReadonlyArray<A>) => {
