@@ -1,5 +1,5 @@
 // import { describe, expect, test } from 'bun:test';
-// import * as O from 'fp-ts/lib/Option';
+// import * as O from 'fp-ts/Option';
 
 // import { head, inverse } from './index';
 

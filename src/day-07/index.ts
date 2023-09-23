@@ -1,5 +1,5 @@
 /**
- * Make your own Option type and function like fp-ts/lib/Option
+ * Make your own Option type and function like fp-ts/Option
  */
 export type None = { readonly _tag: '' }; // TODO
 export type Some<A> = { readonly _tag: ''; readonly value: undefined }; // TODO

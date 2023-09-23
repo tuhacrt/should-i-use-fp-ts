@@ -1,45 +1,43 @@
-// import { beforeEach, describe, expect, test } from 'bun:test';
+// import { describe, expect, test } from 'bun:test';
+// import * as O from 'fp-ts/Option';
+// import { pipe } from 'fp-ts/function';
 
-// import { flow2, narrowFlow2 } from './index';
+// import { map, two, twoMap } from './index';
 
 // /** Helper functions */
-// const inc = (x: number): number => x + 1;
-// const toString = (x: number): string => x.toString();
-// const split = (x: string): Array<string> => x.split('');
 
-// describe('narrowFlow2(f, g) => x => g(f(x))', () => {
-//   let list: Array<number>;
-//   beforeEach(() => list = [1, 2, 3, 4, 5]);
-
+// describe('map', () => {
 //   test(`
-//   Given: f = inc, g = toString
-//   Then: ['2', '3', '4', '5', '6']`, () => {
-//     const received = list.map(narrowFlow2(inc, toString));
-//     const expected = ['2', '3', '4', '5', '6'];
+//   Given: two and twoMap
+//   Then: { _tag: 'Some', value: 2 }`, () => {
+//     const original = two;
+//     const received = twoMap;
+//     const expected = { _tag: 'Some', value: 2 };
 
 //     expect(received).toEqual(expected);
-//   });
-// });
-
-// describe('flow2(f, g) => x => g(f(x))', () => {
-//   let list: Array<number>;
-//   beforeEach(() => list = [1, 2, 3, 4, 5]);
-
-//   test(`
-//   Given: f = inc, g = toString
-//   Then: ['2', '3', '4', '5', '6']`, () => {
-//     const received = list.map(flow2(inc, toString));
-//     const expected = ['2', '3', '4', '5', '6'];
-
-//     expect(received).toEqual(expected);
+//     expect(received).toEqual(original);
 //   });
 
 //   test(`
-//   Given: f = toString, g = split
-//   Then: [['1'], ['2'], ['3'], ['4'], ['5']]`, () => {
-//     const received = list.map(flow2(toString, split));
-//     const expected = [['1'], ['2'], ['3'], ['4'], ['5']];
+//   Given: x = 1, fns = [inc, toString]
+//   When: operation with O.map and map
+//   Then: { _tag: 'Some', value: '2' }`, () => {
+//     const inc = (x: number) => x + 1;
+//     const toString = (x: number) => x.toString();
+//     const x = 1;
+//     const original = pipe(
+//       O.of(x),
+//       O.map(inc),
+//       O.map(toString),
+//     );
+//     const received = pipe(
+//       O.of(x),
+//       map(inc),
+//       map(toString),
+//     );
+//     const expected = { _tag: 'Some', value: '2' };
 
 //     expect(received).toEqual(expected);
+//     expect(received).toEqual(original);
 //   });
 // });
