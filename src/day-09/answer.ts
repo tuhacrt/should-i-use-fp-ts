@@ -1,26 +1,66 @@
 import * as O from 'fp-ts/Option';
 import { flow, pipe } from 'fp-ts/function';
 
-export type None = { readonly _tag: 'None' };
-export type Some<A> = { readonly _tag: 'Some'; readonly value: A };
-export type Option<A> = None | Some<A>;
+/**
+ * The isFailed function we used in src/day-08
+ * which is too verbose and not reusable.
+ */
+type OldIsFailed = (x: O.Option<number>) => O.Option<number>;
+export const oldIsFailed: OldIsFailed = (x) => {
+  if (x._tag === 'None') return O.none;
+  return x.value > 60 ? O.some(x.value) : O.none;
+};
 
-export const none: Option<never> = <const>({ _tag: 'None' });
-export const some = <A>(value: A): Option<A> => <const>({ _tag: 'Some', value });
+type AdjustScore = (x: number) => O.Option<number>;
+export const oldAdjustScore: AdjustScore = flow( // use 40 as an example
+  O.of, // { _tag: 'Some', value: 40 }
+  O.map(x => x * 1.2), // { _tag: 'Some', value: 48 }
+  oldIsFailed, // { _tag: 'None' }
+  O.map(Math.round), // { _tag: 'None' }
+  O.map(x => x > 100 ? 100 : x), // { _tag: 'None' }
+);
 
-export type Map = <A, B>(f: (a: A) => B) => (x: Option<A>) => Option<B>;
-export const map: Map = f => x => x._tag === 'None' ? none : some(f(x.value));
+/**
+ * map :: (a -> b) -> Option a -> Option b
+ * consume a function `f` that takes an `a` and return a `b`
+ * and return a function that takes an `Option a` and return an `Option b`.
+ */
+export type Map = <A, B>(f: (a: A) => B) => (x: O.Option<A>) => O.Option<B>;
+export const map: Map = f => x => x._tag === 'None' ? O.none : O.some(f(x.value));
 
-export type FlatMap = <A, B>(f: (a: A) => Option<B>) => (x: Option<A>) => Option<B>;
-export const flatMap: FlatMap = f => x => x._tag === 'None' ? none : f(x.value);
+/**
+ * flatMap :: (a -> Option b) -> Option a -> Option b
+ * the difference between `map` and `flatMap` is that
+ * the function `f` of `flatMap` returns `Option b` instead of `b`.
+ */
+export type FlatMap = <A, B>(f: (a: A) => O.Option<B>) => (x: O.Option<A>) => O.Option<B>;
+export const flatMap: FlatMap = f => x => x._tag === 'None' ? O.none : f(x.value);
 
-export type Match = <A, B>(onNone: () => B, onSome: (a: A) => B) => (x: Option<A>) => B;
-export const match: Match = (onNone, onSome) => x => x._tag === 'None' ? onNone() : onSome(x.value);
+/**
+ * So we can implement `isFailed` like this:
+ */
+type IsFailed = (x: number) => O.Option<number>;
+export const isFailed: IsFailed = x => x < 60 ? O.none : O.some(x);
 
-/** helper utils */
-export const double = (x: number) => x * 2;
+/**
+ * And implement `isFailed` and `adjustScore` like this using `map` and `flatMap`:
+ */
+export const adjustScore: AdjustScore = flow( // use 40 as an example
+  O.of, // { _tag: 'Some', value: 40 }
+  O.map(x => x * 1.2), // { _tag: 'Some', value: 48 }
+  O.flatMap(isFailed), // { _tag: 'None' }
+  O.map(Math.round), // { _tag: 'None' }
+  O.map(x => x > 100 ? 100 : x), // { _tag: 'None' }
+);
 
-/** Imperative */
+export const studentA = adjustScore(40); // { _tag: 'None' }
+export const studentB = adjustScore(60); // { _tag: 'Some', value: 72 }
+export const studentC = adjustScore(100); // { _tag: 'Some', value: 100 }
+
+/** Now we can compose functions we defined at day-07 */
+const double = (x: number) => x * 2;
+
+/** Imperative style */
 export const headI = <A>(xs: ReadonlyArray<A>) => {
   if (xs.length === 0) throw new Error('empty array');
   return xs[0];
@@ -33,69 +73,30 @@ export const inverseI = (x: number) => {
 
 export const imperative = (xs: ReadonlyArray<number>) => {
   try {
-    return `Result is ${inverseI(double(headI(xs)))}`;
+    return inverseI(double(headI(xs)));
   } catch {
-    return 'no result';
+    return 0;
   }
 };
 
-/** fp-ts */
-export const head = <A>(xs: ReadonlyArray<A>): Option<A> => xs.length === 0 ? none : some(xs[0]);
-export const inverse = (x: number): Option<number> => x === 0 ? none : some(1 / x);
+export const onOneI = imperative([1, 2, 3]); // 0.5
+export const onZeroI = imperative([0, 2, 3]); // 0
 
-export const fp = (xs: ReadonlyArray<number>) => pipe(
-  xs,
-  head,
-  map(double),
-  flatMap(inverse),
-  match(
-    () => 'no result',
-    x => `Result is ${x}`,
-  ),
+/**
+ * The helper function we used in src/day-07 can be implemented like this:
+ */
+type Head = <A>(xs: ReadonlyArray<A>) => O.Option<A>;
+type Inverse = (x: number) => O.Option<number>;
+
+export const head: Head = xs => xs.length === 0 ? O.none : O.some(xs[0]);
+export const inverse: Inverse = x => x === 0 ? O.none : O.some(1 / x);
+
+export const fp = (xs: ReadonlyArray<number>) => pipe(// use [1, 2, 3] as an example
+  xs, // [1, 2, 3]
+  head, // { _tag: 'Some', value: 1 }
+  O.map(double), // { _tag: 'Some', value: 2 }
+  O.flatMap(inverse), // { _tag: 'Some', value: 0.5 }
 );
 
-export const one = O.of(1); // { _tag: 'Some', value: 1 }
-
-export type IncO = (x: O.Option<number>) => O.Option<number>;
-export const incO: IncO = x => x._tag === 'None' ? O.none : O.some(x.value + 1);
-
-export const two = pipe(
-  one, // { _tag: 'Some', value: 1 }
-  incO, // { _tag: 'Some', value: 2 }
-);
-export const twoMap = pipe(
-  one, // { _tag: 'Some', value: 1 }
-  O.map(x => x + 1), // { _tag: 'Some', value: 2 }
-);
-
-export const noneCase = pipe(
-  O.none, // { _tag: 'None' }
-  O.map(x => x + 1), // { _tag: 'None' }
-);
-
-type IsFailed = (x: O.Option<number>) => O.Option<number>;
-export const isFailed: IsFailed = (x) => {
-  if (x._tag === 'None') return O.none;
-  return x.value > 60 ? O.some(x.value) : O.none;
-};
-
-type AdjustScore = (x: number) => O.Option<number>;
-export const adjustScore: AdjustScore = flow( // use 40 as an example
-  O.of, // { _tag: 'Some', value: 40 }
-  O.map(x => x * 1.2), // { _tag: 'Some', value: 48 }
-  isFailed, // { _tag: 'None' }
-  O.map(Math.round), // { _tag: 'None' }
-  O.map(x => x > 100 ? 100 : x), // { _tag: 'None' }
-);
-
-export const studentA = adjustScore(40); // { _tag: 'None' }
-export const studentB = adjustScore(60); // { _tag: 'Some', value: 72 }
-export const studentC = adjustScore(100); // { _tag: 'Some', value: 100 }
-
-// const adjustScore2: AdjustScore = flow(
-//   O.of, // Option<number>
-//   O.map(x => x * 1.2), // Option<number>
-//   O.map(x => x > 60 ? some(x) : none), // Option<Option<number>>
-//   O.map(Math.round), // never
-//   O.map(x => x > 100 ? 100 : x), // never
-// );
+export const onOne = fp([1, 2, 3]); // { _tag: 'Some', value: 0.5 }
+export const onZero = fp([0, 2, 3]); // { _tag: 'None' }
