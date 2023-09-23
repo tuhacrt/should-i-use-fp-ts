@@ -1,4 +1,4 @@
-# Day 08 - Option (2)
+# Day 08 - Option map
 
 This folder is to show how to use Option in fp-ts.
 

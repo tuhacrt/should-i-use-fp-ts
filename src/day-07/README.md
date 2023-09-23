@@ -1,4 +1,4 @@
-# Day 07 - Option (1)
+# Day 07 - Option types and constructors
 
 This folder is to show how to use Option's `none`, `some`, `of`, and their types in fp-ts.
 

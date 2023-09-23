@@ -1,6 +1,6 @@
 // import { beforeEach, describe, expect, test } from 'bun:test';
 
-// import { flow2, narrowFlow2, pipe2 } from './answer';
+// import { flow2, narrowFlow2, pipe2 } from './index';
 
 // /** Helper functions */
 // const inc = (x: number): number => x + 1;

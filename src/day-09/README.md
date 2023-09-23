@@ -1,10 +1,10 @@
-# Day 08 - Option (2)
+# Day 03 - Option flatMap
 
 This folder is to show how to use Option in fp-ts.
 
 ## Run
 
 ```sh
-# remove the annotation mark of ./src/day-07/index.spec.ts and run
+# remove the annotation mark of ./src/day-09/index.spec.ts and run
 bun test
 ```
