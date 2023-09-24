@@ -61,7 +61,7 @@ export const imperativeOrElseW = (xs: ReadonlyArray<number>) => {
   try {
     return inverseI(double(headI(xs))); // get
   } catch {
-    return 'no value'; // orElse
+    return 'no value'; // orElseW
   }
 };
 
