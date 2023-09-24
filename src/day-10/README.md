@@ -1,4 +1,4 @@
-# Day 10 - Option match
+# Day 10 - Option getOrElse, match
 
 This folder is to show how to use Option in fp-ts.
 

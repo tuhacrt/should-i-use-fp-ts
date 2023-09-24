@@ -1,7 +1,18 @@
 import * as O from 'fp-ts/Option';
-import { flow, pipe } from 'fp-ts/function';
+import { pipe } from 'fp-ts/function';
+
+/**
+ * The past few days we learned how to operate using `Option`,
+ * but we haven't get the value from `Option` yet.
+ * We need to define a `getOrElse` function to get the value from `Option`,
+ * and return a specific value(from `onNone` function) if `None`.
+ */
+export type GetOrElse = <A>(onNone: () => A) => (x: O.Option<A>) => A;
+export const getOrElse: GetOrElse = onNone => x => x._tag === 'None' ? onNone() : x.value;
 
 /** Now we can compose functions we defined at day-07 */
+
+/** helper functions */
 const double = (x: number) => x * 2;
 
 /** Imperative style */
@@ -15,32 +26,49 @@ export const inverseI = (x: number) => {
   return 1 / x;
 };
 
-export const imperative = (xs: ReadonlyArray<number>) => {
+export const imperativeOrElse = (xs: ReadonlyArray<number>) => {
   try {
-    return inverseI(double(headI(xs)));
+    return inverseI(double(headI(xs))); // get
   } catch {
-    return 0;
+    return 0; // orElse
   }
 };
 
-export const onOneI = imperative([1, 2, 3]); // 0.5
-export const onZeroI = imperative([0, 2, 3]); // 0
-
-/**
- * The helper function we used in src/day-07 can be implemented like this:
- */
+/** helper functions we defined at day-07 */
 type Head = <A>(xs: ReadonlyArray<A>) => O.Option<A>;
 type Inverse = (x: number) => O.Option<number>;
 
 export const head: Head = xs => xs.length === 0 ? O.none : O.some(xs[0]);
 export const inverse: Inverse = x => x === 0 ? O.none : O.some(1 / x);
 
-export const fp = (xs: ReadonlyArray<number>) => pipe(// use [1, 2, 3] as an example
+export const fpElse = (xs: ReadonlyArray<number>) => pipe( // use [1, 2, 3] as an example
   xs, // [1, 2, 3]
   head, // { _tag: 'Some', value: 1 }
   O.map(double), // { _tag: 'Some', value: 2 }
   O.flatMap(inverse), // { _tag: 'Some', value: 0.5 }
+  O.getOrElse(() => 0), // 0.5
 );
 
-export const onOne = fp([1, 2, 3]); // { _tag: 'Some', value: 0.5 }
-export const onZero = fp([0, 2, 3]); // { _tag: 'None' }
+/**
+ * But what if we want onNone function output different type from our `onSome` type?
+ * We need to define a `getOrElseW` function to get the value from `Option`,
+ * and return a specific value(from `onNone` function) if `None` (and with different type).
+ */
+export type GetOrElseW = <A, B>(onNone: () => B) => (x: O.Option<A>) => A | B;
+export const getOrElseW: GetOrElseW = onNone => x => x._tag === 'None' ? onNone() : x.value;
+
+export const imperativeOrElseW = (xs: ReadonlyArray<number>) => {
+  try {
+    return inverseI(double(headI(xs))); // get
+  } catch {
+    return 'no value'; // orElse
+  }
+};
+
+export const fpElseW = (xs: ReadonlyArray<number>) => pipe( // use [0, 2, 3] as an example
+  xs, // [0, 2, 3]
+  head, // { _tag: 'None' }
+  O.map(double), // { _tag: 'None' }
+  O.flatMap(inverse), // { _tag: 'None' }
+  getOrElseW(() => 'no value'), // 'no value'
+);

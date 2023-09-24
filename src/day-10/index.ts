@@ -1,82 +1,18 @@
 import * as O from 'fp-ts/Option';
-import { flow, pipe } from 'fp-ts/function';
+import { pipe } from 'fp-ts/function';
 
 /**
- * The isFailed function we used in src/day-08
- * which is too verbose and not reusable.
+ * The past few days we learned how to operate using `Option`,
+ * but we haven't get the value from `Option` yet.
+ * We need to define a `getOrElse` function to get the value from `Option`,
+ * and return a specific value(from `onNone` function) if `None`.
  */
-type OldIsFailed = (x: O.Option<number>) => O.Option<number>;
-export const oldIsFailed: OldIsFailed = (x) => {
-  if (x._tag === 'None') return O.none;
-  return x.value > 60 ? O.some(x.value) : O.none;
-};
-
-type AdjustScore = (x: number) => O.Option<number>;
-export const oldAdjustScore: AdjustScore = flow( // use 40 as an example
-  O.of, // { _tag: 'Some', value: 40 }
-  O.map(x => x * 1.2), // { _tag: 'Some', value: 48 }
-  oldIsFailed, // { _tag: 'None' }
-  O.map(Math.round), // { _tag: 'None' }
-  O.map(x => x > 100 ? 100 : x), // { _tag: 'None' }
-);
-
-/**
- * map :: (a -> b) -> Option a -> Option b
- * consume a function `f` that takes an `a` and return a `b`
- * and return a function that takes an `Option a` and return an `Option b`.
- */
-export type Map = <A, B>(f: (a: A) => B) => (x: O.Option<A>) => O.Option<B>;
-export const map: Map = f => x => x._tag === 'None' ? O.none : O.some(f(x.value));
-
-/**
- * what if we can implement `isFailed` like this:
- */
-type IsFailed = (x: number) => O.Option<number>;
-export const isFailed: IsFailed = x => x > 60 ? O.some(x) : O.none;
-
-/**
- * flatten :: Option (Option a) -> Option a
- * flatten is a function that takes an `Option (Option a)` and return an `Option a`.
- * It is a very useful function when you want to flatten a nested `Option`.
- * You need to implement `flatten` to make following `adjustScoreFlatten` valid.
- */
-export type Flatten = <A>(x: undefined) => undefined; // TODO
-export const flatten: Flatten = x => undefined; // TODO
-
-export const adjustScoreFlatten: AdjustScore = flow( // use 40 as an example
-  O.of, // { _tag: 'Some', value: 40 }
-  O.map(x => x * 1.2), // { _tag: 'Some', value: 48 }
-  O.map(isFailed), // { _tag: 'None' }
-  O.flatten, // { _tag: 'None' }
-  O.map(Math.round), // { _tag: 'None' }
-  O.map(x => x > 100 ? 100 : x), // { _tag: 'None' }
-);
-
-/**
- * flatMap :: (a -> Option b) -> Option a -> Option b
- * the difference between `map` and `flatMap` is that
- * the function `f` of `flatMap` returns `Option b` instead of `b`.
- * You need to implement `flatMap` to make following `adjustScore` valid.
- */
-export type FlatMap = <A, B>(f: undefined) => (x: undefined) => undefined; // TODO
-export const flatMap: FlatMap = f => x => undefined; // TODO
-
-/**
- * And implement `isFailed` and `adjustScore` like this using `map` and `flatMap`:
- */
-export const adjustScore: AdjustScore = flow( // use 40 as an example
-  O.of, // { _tag: 'Some', value: 40 }
-  O.map(x => x * 1.2), // { _tag: 'Some', value: 48 }
-  O.flatMap(isFailed), // { _tag: 'None' }
-  O.map(Math.round), // { _tag: 'None' }
-  O.map(x => x > 100 ? 100 : x), // { _tag: 'None' }
-);
-
-export const studentA = adjustScore(40); // { _tag: 'None' }
-export const studentB = adjustScore(60); // { _tag: 'Some', value: 72 }
-export const studentC = adjustScore(100); // { _tag: 'Some', value: 100 }
+export type GetOrElse = <A>(onNone: undefined) => (x: undefined) => undefined;
+export const getOrElse: GetOrElse = onNone => x => undefined;
 
 /** Now we can compose functions we defined at day-07 */
+
+/** helper functions */
 const double = (x: number) => x * 2;
 
 /** Imperative style */
@@ -90,32 +26,49 @@ export const inverseI = (x: number) => {
   return 1 / x;
 };
 
-export const imperative = (xs: ReadonlyArray<number>) => {
+export const imperativeOrElse = (xs: ReadonlyArray<number>) => {
   try {
-    return inverseI(double(headI(xs)));
+    return inverseI(double(headI(xs))); // get
   } catch {
-    return 0;
+    return 0; // orElse
   }
 };
 
-export const onOneI = imperative([1, 2, 3]); // 0.5
-export const onZeroI = imperative([0, 2, 3]); // 0
-
-/**
- * The helper function we used in src/day-07 can be implemented like this:
- */
+/** helper functions we defined at day-07 */
 type Head = <A>(xs: ReadonlyArray<A>) => O.Option<A>;
 type Inverse = (x: number) => O.Option<number>;
 
 export const head: Head = xs => xs.length === 0 ? O.none : O.some(xs[0]);
 export const inverse: Inverse = x => x === 0 ? O.none : O.some(1 / x);
 
-export const fp = (xs: ReadonlyArray<number>) => pipe(// use [1, 2, 3] as an example
+export const fpElse = (xs: ReadonlyArray<number>) => pipe( // use [1, 2, 3] as an example
   xs, // [1, 2, 3]
   head, // { _tag: 'Some', value: 1 }
   O.map(double), // { _tag: 'Some', value: 2 }
   O.flatMap(inverse), // { _tag: 'Some', value: 0.5 }
+  O.getOrElse(() => 0), // 0.5
 );
 
-export const onOne = fp([1, 2, 3]); // { _tag: 'Some', value: 0.5 }
-export const onZero = fp([0, 2, 3]); // { _tag: 'None' }
+/**
+ * But what if we want onNone function output different type from our `onSome` type?
+ * We need to define a `getOrElseW` function to get the value from `Option`,
+ * and return a specific value(from `onNone` function) if `None` (and with different type).
+ */
+export type GetOrElseW = <A, B>(onNone: undefined) => (x: undefined) => undefined;
+export const getOrElseW: GetOrElseW = onNone => x => undefined;
+
+export const imperativeOrElseW = (xs: ReadonlyArray<number>) => {
+  try {
+    return inverseI(double(headI(xs))); // get
+  } catch {
+    return 'no value'; // orElse
+  }
+};
+
+export const fpElseW = (xs: ReadonlyArray<number>) => pipe( // use [0, 2, 3] as an example
+  xs, // [0, 2, 3]
+  head, // { _tag: 'None' }
+  O.map(double), // { _tag: 'None' }
+  O.flatMap(inverse), // { _tag: 'None' }
+  getOrElseW(() => 'no value'), // 'no value'
+);

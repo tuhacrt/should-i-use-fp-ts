@@ -1,35 +1,38 @@
-// import { describe, expect, test } from 'bun:test';
-// import * as O from 'fp-ts/Option';
-// import { pipe } from 'fp-ts/function';
+import { describe, expect, test } from 'bun:test';
+import * as O from 'fp-ts/Option';
+import { pipe } from 'fp-ts/function';
 
-// import { flatMap, isFailed } from './index';
+import { getOrElse, getOrElseW, head, inverse } from './index';
 
-// /** Helper functions */
+/** Helper functions */
+const double = (x: number) => x * 2;
 
-// describe('flatMap is correctly implement', () => {
-//   test(`
-//   Given: x = 40
-//   When: pipe(x, O.of, O.map(x => x * 1.2), flatMap(isFailed))
-//   Then: { _tag: 'Some', value: 2 }`, () => {
-//     const x = 40;
-//     const original = pipe(x, O.of, O.map(x => x * 1.2), O.flatMap(isFailed));
-//     const received = pipe(x, O.of, O.map(x => x * 1.2), flatMap(isFailed));
-//     const expected = { _tag: 'None' };
+describe('getOrElse is correctly implement', () => {
+  test(`
+  Given: x = [1, 2, 3]
+  When: pipe(xs, head, O.map(double), O.flatMap(inverse), getOrElse(() => 0))
+  Then: 0.5`, () => {
+    const xs = [1, 2, 3];
+    const original = pipe(xs, head, O.map(double), O.flatMap(inverse), O.getOrElse(() => 0));
+    const received = pipe(xs, head, O.map(double), O.flatMap(inverse), getOrElse(() => 0));
+    const expected = 0.5;
 
-//     expect(received).toEqual(expected);
-//     expect(received).toEqual(original);
-//   });
+    expect(received).toEqual(expected);
+    expect(received).toEqual(original);
+  });
+});
 
-//   test(`
-//   Given: x = 60
-//   When: pipe(x, O.of, O.map(x => x * 1.2), flatMap(isFailed))
-//   Then: { _tag: 'Some', value: 2 }`, () => {
-//     const x = 60;
-//     const original = pipe(x, O.of, O.map(x => x * 1.2), O.flatMap(isFailed));
-//     const received = pipe(x, O.of, O.map(x => x * 1.2), flatMap(isFailed));
-//     const expected = { _tag: 'Some', value: 72 };
+describe('getOrElseW is correctly implement', () => {
+  test(`
+  Given: x = [0, 2, 3]
+  When: pipe(xs, head, O.map(double), O.flatMap(inverse), getOrElse(() => 0))
+  Then: 'no value'`, () => {
+    const xs = [0, 2, 3];
+    const original = pipe(xs, head, O.map(double), O.flatMap(inverse), O.getOrElseW(() => 'no value'));
+    const received = pipe(xs, head, O.map(double), O.flatMap(inverse), getOrElseW(() => 'no value'));
+    const expected = 'no value';
 
-//     expect(received).toEqual(expected);
-//     expect(received).toEqual(original);
-//   });
-// });
+    expect(received).toEqual(expected);
+    expect(received).toEqual(original);
+  });
+});
