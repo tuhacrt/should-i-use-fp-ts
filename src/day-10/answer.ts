@@ -55,7 +55,8 @@ export const fpElse = (xs: ReadonlyArray<number>) => pipe( // use [1, 2, 3] as a
  * and return a specific value(from `onNone` function) if `None` (and with different type).
  */
 export type GetOrElseW = <A, B>(onNone: () => B) => (x: O.Option<A>) => A | B;
-export const getOrElseW: GetOrElseW = onNone => x => x._tag === 'None' ? onNone() : x.value;
+export const getOrElseW: GetOrElseW = onNone =>
+  x => x._tag === 'None' ? onNone() : x.value;
 
 export const imperativeOrElseW = (xs: ReadonlyArray<number>) => {
   try {

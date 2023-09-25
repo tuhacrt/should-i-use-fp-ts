@@ -13,7 +13,7 @@ export const getOrElse: GetOrElse = onNone => x => undefined;
 /** Now we can compose functions we defined at day-07 */
 
 /** helper functions */
-const double = (x: number) => x * 2;
+export const double = (x: number) => x * 2;
 
 /** Imperative style */
 export const headI = <A>(xs: ReadonlyArray<A>) => {
