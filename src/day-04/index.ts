@@ -34,9 +34,8 @@ const pascalImp = (n: number): Array<Array<number>> => {
     const currRow = Array<number>();
     const lastRow = triangle.at(-1) as Array<number>;
 
-    for (let i = 0; i <= row; i++) {
+    for (let i = 0; i <= row; i++)
       currRow.push((lastRow[i - 1] || 0) + (lastRow[i] || 0));
-    }
 
     triangle.push(currRow);
   }

@@ -23,6 +23,10 @@ const incAndToString = (x: number) => toString(inc(x));
 const pointfreeCompose = arr.map(incAndToString);
 
 export {
-  notPointfreeInc, notPointfreeToString, notPointfreeCompose,
-  pointfreeInc, pointfreeToString, pointfreeCompose,
+  notPointfreeInc,
+  notPointfreeToString,
+  notPointfreeCompose,
+  pointfreeInc,
+  pointfreeToString,
+  pointfreeCompose,
 };

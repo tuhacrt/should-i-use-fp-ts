@@ -4,8 +4,6 @@
 
 // import { double, head, inverse, match, matchW } from './index';
 
-// /** Helper functions */
-
 // describe('match is correctly implement', () => {
 //   test(`
 //   Given: x = [1, 2, 3]
@@ -24,7 +22,8 @@
 //       pre,
 //       match(
 //         () => 'no value',
-//         v => `result: ${v}`),
+//         v => `result: ${v}`,
+//       ),
 //     );
 //     const expected = 'result: 0.5';
 
@@ -51,7 +50,8 @@
 //       pre,
 //       matchW(
 //         () => false,
-//         v => `result: ${v}`),
+//         v => `result: ${v}`,
+//       ),
 //     );
 //     const expected = false;
 

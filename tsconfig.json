@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "types": ["bun-types"],
-    "lib": ["esnext"],
-    "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-    "moduleDetection": "force",
+    "lib": ["esnext"],
     "jsx": "react-jsx",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
+    "moduleDetection": "force",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "types": ["bun-types"],
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "skipDefaultLibCheck": true
+    "allowJs": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   }
 }
