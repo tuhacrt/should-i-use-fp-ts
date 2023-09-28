@@ -18,7 +18,7 @@ export const Do: DoType = O.of({});
 export const bindExample = (x: number, y: number) => pipe(
   O.Do, // { _tag: 'Some', value: {} }
   O.bind('x', () => O.of(x * 2 + 3)), // { _tag: 'Some', value: { x: 5 } }
-  // bind's second fn can use the value of or Do.
+  // bind's second fn can use the value from Do.
   O.bind('y', ({ x }) => O.of(y + x * 3)), // { _tag: 'Some', value: { x: 5, y: 17 } }
   O.map(({ x, y }) => x + y), // { _tag: 'Some', value: 22 }
   O.getOrElse(() => 0), // 22
