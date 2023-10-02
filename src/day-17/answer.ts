@@ -2,42 +2,57 @@ import * as O from 'fp-ts/Option';
 import { pipe } from 'fp-ts/function';
 
 /**
- * Now its time to add pure variable into `Do`.
- * this function is `apS`.
- * Here is the usage of `apS`.
- * `apS` is a function that inject a pure variable into `Do`,
- * it doesn't have the ability to use the value from `Do`.
+ * Today we are going to show some example of daily usage of `Option` .
+ * This example is for a simple signup form.
+ * We have a form with 3 fields: username, email and password.
+ * We want to validate the form and if it's valid we want to send the data to the server.
+ * first of all, we need to define the types of the data that we are going to use.
  */
-export const example = pipe(
-  O.Do, // { _tag: 'Some', value: {} }
-  O.apS('a', O.some('tests')), // { _tag: 'Some', value: { a: 'tests' } }
-  O.apS('b', O.some(1)), // { _tag: 'Some', value: { a: 'tests', b: 1 } }
-  O.apS('c', O.some(2)), // { _tag: 'Some', value: { a: 'tests', b: 1, c: 2 } }
-);
+type User = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 /**
- * `apS` is a function that inject a pure variable into `Do`,
- * type of `apS` is:
- * 1. define a name to be the key of the Do object.
- * 2. and this name should not be the current key of the Do object.
- * 3. then fb is the value of the key.
- * 4. finally, return a function that accept fa (our Do object) as the parameter.
- * we can implement its type as following:
+ * We do this validation using original methods without using `Option` .
  */
-export type ApS = <N extends string, A, B>(name: Exclude<N, keyof A>, fb: O.Option<B>) =>
-<A>(fa: O.Option<A>) =>
-O.Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>;
+const moreThan3Chars = (xs: string): string | null => xs.length > 3 ? xs : null;
+const validateEmail = (email: string): string | null => email.includes('@') ? email : null;
+const moreThan6Chars = (xs: string): string | null => xs.length > 6 ? xs : null;
+const hasCapital = (xs: string): string | null => /[A-Z]/.test(xs) ? xs : null;
+const hasNumber = (xs: string): string | null => /\d/.test(xs) ? xs : null;
+
+export const validateOriginal = (user: User) => {
+  if (!moreThan3Chars(user.username)) return null;
+
+  if (!validateEmail(user.email)) return null;
+
+  if (!moreThan6Chars(user.password)) return null;
+  if (!hasCapital(user.password)) return null;
+  if (!hasNumber(user.password)) return null;
+
+  return { username: user.username, email: user.email, password: user.password };
+};
 
 /**
- * The implement of `apS` is similar to `bindTo`,
- * but inject a pure variable `fb` instead of a function.
- * Now we can implement `apS`:
+ * Than we can use `Option` to do the same thing.
  */
-// use name = 'a', fb = O.some('tests'), fa = O.Do  as example
-export const apS: ApS = (name, fb) => fa => pipe(
-  fa, // { _tag: 'Some', value: {} } (our Do object)
-  O.flatMap(a => pipe(
-    fb, // { _tag: 'Some', value: 'tests' } (our pure variable)
-    O.map(b => Object.assign({}, a, { [name]: b }) as any), // { _tag: 'Some', value: { a: 'tests' } }
+const moreThan3CharsOption = O.fromPredicate((xs: string) => xs.length > 3);
+const validateEmailOption = O.fromPredicate((xs: string) => xs.includes('@'));
+const moreThan6CharsOption = O.fromPredicate((xs: string) => xs.length > 6);
+const hasCapitalOption = O.fromPredicate((xs: string) => /[A-Z]/.test(xs));
+const hasNumberOption = O.fromPredicate((xs: string) => /\d/.test(xs));
+
+export const validateOption = ({ username, email, password }: User) => pipe(
+  O.Do,
+  O.bind('username', () => moreThan3CharsOption(username)),
+  O.bind('email', () => validateEmailOption(email)),
+  O.bind('password', () => pipe(
+    password,
+    moreThan6CharsOption,
+    O.chain(hasCapitalOption),
+    O.chain(hasNumberOption),
   )),
-); // { _tag: 'Some', value: { a: 'tests' } }
+  O.getOrElseW(() => null),
+);
