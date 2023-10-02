@@ -45,10 +45,11 @@ const hasCapitalOption = O.fromPredicate((xs: string) => /[A-Z]/.test(xs));
 const hasNumberOption = O.fromPredicate((xs: string) => /\d/.test(xs));
 
 export const validateOption = ({ username, email, password }: User) => pipe(
-  O.Do,
-  O.bind('username', () => moreThan3CharsOption(username)),
-  O.bind('email', () => validateEmailOption(email)),
-  O.bind('password', () => pipe(
+  username,
+  moreThan3CharsOption,
+  O.bindTo('username'),
+  O.apS('email', validateEmailOption(email)),
+  O.apS('password', pipe(
     password,
     moreThan6CharsOption,
     O.chain(hasCapitalOption),

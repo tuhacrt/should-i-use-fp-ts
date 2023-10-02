@@ -1,6 +1,6 @@
 // import { describe, expect, test } from 'bun:test';
 
-// import { validateOption, validateOriginal } from './index';
+// import { validateOption, validateOriginal } from './answer';
 
 // describe('validate is correctly implement', () => {
 //   test(`
