@@ -13,11 +13,9 @@
 // type Either<E, A> = Left<E> | Right<A>;
 
 // type LeftConstructor = <E = never, A = never>(e: E) => Either<E, A>;
-
 // const left: LeftConstructor = e => ({ _tag: 'Left', left: e });
 
 // type RightConstructor = <E = never, A = never>(a: A) => Either<E, A>;
-
 // const right: RightConstructor = a => ({ _tag: 'Right', right: a });
 
 // describe('E.left, E.right is correctly implement', () => {
