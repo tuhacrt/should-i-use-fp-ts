@@ -24,7 +24,7 @@
 //   it(`
 //   Given: x = 'Error'
 //   When: left(x)
-//   Then: { tag: 'Left', left: x }`, () => {
+//   Then: { _tag: 'Left', left: x }`, () => {
 //     const x = 'Error';
 //     const original = E.left(x);
 //     const received = left(x);
@@ -37,7 +37,7 @@
 //   it(`
 //   Given: x = 'Error'
 //   When: right(x)
-//   Then: { tag: 'Left', right: x }`, () => {
+//   Then:  { _tag: 'Right', right: x }`, () => {
 //     const x = { username: 'test', email: '', password: '' };
 //     const original = E.right(x);
 //     const received = right(x);
