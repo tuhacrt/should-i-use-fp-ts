@@ -8,7 +8,7 @@ import { pipe } from 'fp-ts/function';
  * We want to validate the form and if it's valid we want to send the data to the server.
  * first of all, we need to define the types of the data that we are going to use.
  */
-type User = {
+interface User {
   username: string;
   email: string;
   password: string;

@@ -21,7 +21,7 @@ export const fromPredicate: FromPredicate = predicate => x => predicate(x) ? O.s
  * These two functions are very useful while common development.
  * for example: we got some random string from request param,
  */
-export type Req = { query: { str?: string; id: number } };
+export interface Req { query: { str?: string; id: number } };
 
 export const isNotEmptyString = (req: Req) => pipe(
   req.query.str,

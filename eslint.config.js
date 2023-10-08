@@ -1,5 +1,5 @@
 import antfu from '@antfu/eslint-config';
-import ts from '@typescript-eslint/eslint-plugin';
+import tse from '@typescript-eslint/eslint-plugin';
 
 export default antfu(
   {
@@ -10,7 +10,7 @@ export default antfu(
   },
   {
     plugins: {
-      ts,
+      tse,
     },
     rules: {
       'antfu/top-level-function': 'off',
@@ -36,9 +36,9 @@ export default antfu(
         },
       ],
       'ts/brace-style': 'off',
-      'ts/array-type': ['error', { default: 'generic' }],
-      'ts/consistent-type-imports': 'error',
-      'ts/consistent-type-definitions': ['error', 'type'],
+      // 'ts/consistent-type-definitions': ['error', 'type'],
+      // 'ts/array-type': ['error', { default: 'generic' }],
+      // 'ts/consistent-type-imports': 'error',
     },
   },
 );

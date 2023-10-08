@@ -6,7 +6,7 @@ import { pipe } from 'fp-ts/function';
  * Using lots of `if-else` statement or `early return` to implement a flow,
  * And each statement return different values.
  */
-export type Mice = {
+export interface Mice {
   name: string;
   rank: number;
   award?: string;
